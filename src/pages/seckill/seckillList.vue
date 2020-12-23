@@ -1,24 +1,16 @@
 <template>
-  <!-- 轮播图列表 -->
-  <div class="bannerList">
+  <div class="seckillList">
     <el-table
-      :data="bannerList"
+      :data="seckillList"
       stripe
       style="width: 100%"
       row-key="id"
       border
       :tree-props="{ children: 'children' }"
     >
-      <el-table-column prop="id" label="编号" width="180"> </el-table-column>
-      <el-table-column prop="title" label="轮播图标题" width="180">
+      <!-- 活动名称 -->
+      <el-table-column prop="title" label="活动名称" width="180">
       </el-table-column>
-
-      <el-table-column prop="img" label="图片" width="180">
-        <template slot-scope="scope">
-          <img class="bannerImg" :src="$prefiximgUrl + scope.row.img" alt="" />
-        </template>
-      </el-table-column>
-
       <el-table-column prop="status" label="状态" width="180">
         <!-- slot-scope是elementui的一个获取某一行数据的值 -->
         <template slot-scope="scope">
@@ -30,10 +22,10 @@
       </el-table-column>
       <el-table-column prop="operation" label="操作" width="180">
         <template slot-scope="scope">
-          <el-button type="primary" @click="updatemenu(scope.row.id)"
+          <el-button type="primary" @click="updateseckill(scope.row.id)"
             >编辑</el-button
           >
-          <el-button type="danger" @click="deltebanner(scope.row.id)"
+          <el-button type="danger" @click="delteseckill(scope.row.id)"
             >删除</el-button
           >
         </template>
@@ -43,36 +35,35 @@
 </template>
 
 <script>
-// 引用接口数据
 import { mapGetters, mapActions } from "vuex";
-import { DeleteBannerByOne } from "../../utils/request";
-import { successAlert, warningAlert } from '../../utils/alert';
+import { DeleteSeckillByOne } from "../../utils/request";
+import { successAlert, warningAlert } from "../../utils/alert";
 export default {
   computed: {
     ...mapGetters({
-      bannerList: "banner/bannerList"
+      seckillList: "seckill/seckillList" //秒杀活动列表
     })
   },
   methods: {
     ...mapActions({
-      bannerListActions: "banner/BannerListActions"
+      seckillListActions: "seckill/SeckillListActions"
     }),
     // 编辑
-    updatemenu(id) {
-      this.$emit("updatebanner", id);
+    updateseckill(id) {
+      this.$emit("updateseckill", id);
     },
     // 删除
-    deltebanner(id){
+    delteseckill(id) {
       this.$confirm("确定要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          DeleteBannerByOne({ id }).then(res => {
+          DeleteSeckillByOne({ id }).then(res => {
             if (res.data.code == 200) {
               successAlert(res.data.msg);
-             this.bannerListActions();
+              this.seckillListActions();
             }
           });
         })
@@ -85,14 +76,10 @@ export default {
     }
   },
   mounted() {
-    this.bannerListActions();
+    this.seckillListActions();
   }
 };
 </script>
 
-<style scoped>
-.bannerImg {
-  width: 60px;
-  height: 60px;
-}
+<style>
 </style>

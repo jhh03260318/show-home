@@ -20,6 +20,7 @@ import spec from './modules/specifications';
 import goods from './modules/goods';
 import member from './modules/member';
 import banner from './modules/banner';
+import seckill from './modules/seckill';
 
 
 //将实例对象暴露出去，以便项目得主入口文件调用
@@ -36,6 +37,7 @@ export default new Vuex.Store({
         spec,
         goods,
         member,
-        banner
+        banner,
+        seckill
     }
 });

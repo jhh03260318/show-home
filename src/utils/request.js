@@ -391,3 +391,78 @@ export const SelecBannerList = () => {
         url: baseUrl + "/api/bannerlist"
     });
 };
+
+// 根据id获取一条轮播图信息
+export const SelectBannerByOne = (id) => {
+    return axios({
+        method: "get",
+        url: baseUrl + "/api/bannerinfo",
+        params: id
+    });
+};
+
+// 修改一条轮播图信息
+export const UpdateBannerByOne = (banner) => {
+    //携带文件流请求数据接口
+    var form = new FormData();
+    for (let i in banner) {
+        form.append(i, banner[i]);
+    }
+    return axios({
+        method: "post",
+        url: baseUrl + "/api/banneredit",
+        data: form
+    })
+};
+
+// 删除一张轮播图
+export const DeleteBannerByOne = (id) => {
+    return axios({
+        method: "post",
+        url: baseUrl + "/api/bannerdelete",
+        data: id,
+    });
+};
+
+// 添加秒杀活动
+export const InsertScekill = (scekill) => {
+    return axios({
+        method: "post",
+        url: baseUrl + "/api/seckadd",
+        data: scekill
+    })
+};
+
+// 获取秒杀活动列表
+export const SelecScekillList = () => {
+    return axios({
+        method: "get",
+        url: baseUrl + "/api/secklist"
+    });
+};
+// 根据id获取一条秒杀活动的数据
+export const SelectSeckillByOne = (id) => {
+    return axios({
+        method: "get",
+        url: baseUrl + "/api/seckinfo",
+        params: id
+    });
+};
+
+// 修改一条秒杀活动信息
+export const UpdataSeckill = (data) => {
+    return axios({
+        method: "post",
+        url: baseUrl + "/api/seckedit",
+        data: qs.stringify(data),
+    });
+};
+
+// 删除一条活动信息
+export const DeleteSeckillByOne = (id) => {
+    return axios({
+        method: "post",
+        url: baseUrl + "/api/seckdelete",
+        data: id,
+    });
+};

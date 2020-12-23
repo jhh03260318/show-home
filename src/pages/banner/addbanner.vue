@@ -40,7 +40,7 @@
           >
           <el-button
             type="primary"
-            @click="updateCategoryByOne('ruleForm')"
+            @click="updateBannerByOne('ruleForm')"
             v-else
             >修改</el-button
           >
@@ -56,7 +56,13 @@
 // 引入公共消息子组件
 import { successAlert, warningAlert } from "../../utils/alert";
 // 引入接口数据
-import { InsertBanner } from "../../utils/request";
+import {
+  InsertBanner,
+  SelectBannerByOne,
+  UpdateBannerByOne
+} from "../../utils/request";
+
+import {mapActions} from 'vuex';
 export default {
   // 接受子组件的信息
   props: ["info"],
@@ -80,14 +86,15 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          InsertBanner(this.ruleForm).then(res=>{
-            if(res.data.code===200){
+          InsertBanner(this.ruleForm).then(res => {
+            if (res.data.code === 200) {
               successAlert(res.data.msg);
               this.cancle();
-            }else{
+              this.bannerListActions();
+            } else {
               warningAlert(res.data.msg);
             }
-          })
+          });
         } else {
           console.log("error submit!!");
           return false;
@@ -131,7 +138,33 @@ export default {
     // 重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
+    //获取一条轮播图信息
+    getbanner(id) {
+      // 调用数据接口
+      SelectBannerByOne({ id }).then(res => {
+        if (res.data.code === 200) {
+          this.ruleForm = res.data.list;
+          this.ruleForm.id = id;
+          this.imageUrl = this.$prefiximgUrl + this.ruleForm.img;
+        }
+      });
+    },
+    // 修改一条轮播图信息
+    updateBannerByOne() {
+      UpdateBannerByOne(this.ruleForm).then(res => {
+        if (res.data.code === 200) {
+          successAlert(res.data.msg);
+          this.cancle();
+          this.bannerListActions();
+        } else {
+          warningAlert(res.data.msg);
+        }
+      });
+    },
+    ...mapActions({
+      bannerListActions:"banner/BannerListActions"
+    }),
   }
 };
 </script>
