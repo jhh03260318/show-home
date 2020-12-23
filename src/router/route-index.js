@@ -57,6 +57,16 @@ export default new Router({
           path:"member",
           name:"会员管理",
           component:()=>import('../pages/member/member.vue')
+        },
+        {
+          path:"banner",
+          name:"轮播图管理",
+          component:()=>import('../pages/banner/banner.vue')
+        },
+        {
+          path:"seckill",
+          name:"秒杀活动管理",
+          component:()=>import('../pages/seckill/seckill.vue')
         }
       ]
     },

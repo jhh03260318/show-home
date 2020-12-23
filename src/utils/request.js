@@ -370,3 +370,24 @@ export const UpdataMember = (data) => {
         data: qs.stringify(data),
     });
 };
+
+// 添加轮播图
+export const InsertBanner = (banner) => {
+    //携带文件流请求数据接口
+    var form = new FormData();
+    for (let i in banner) {
+        form.append(i, banner[i]);
+    }
+    return axios({
+        method: "post",
+        url: baseUrl + "/api/banneradd",
+        data: form
+    })
+};
+// 获取轮播图列表
+export const SelecBannerList = () => {
+    return axios({
+        method: "get",
+        url: baseUrl + "/api/bannerlist"
+    });
+};

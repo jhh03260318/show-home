@@ -19,6 +19,7 @@ import category from './modules/category';
 import spec from './modules/specifications';
 import goods from './modules/goods';
 import member from './modules/member';
+import banner from './modules/banner';
 
 
 //将实例对象暴露出去，以便项目得主入口文件调用
@@ -34,6 +35,7 @@ export default new Vuex.Store({
         category,
         spec,
         goods,
-        member
+        member,
+        banner
     }
 });
