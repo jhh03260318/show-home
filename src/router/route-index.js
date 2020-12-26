@@ -6,7 +6,9 @@ Vue.use(Router)
 import login from '../pages/login/login.vue';
 //引入首页home组件
 import home from '../pages/home/home.vue';
-export default new Router({
+// 引入消息组件
+import { successAlert, warningAlert } from "../utils/alert";
+const router = new Router({
   routes: [
     //注册login组件
     {
@@ -39,34 +41,34 @@ export default new Router({
           component: () => import('../pages/manage/manage.vue')
         },
         {
-          path:"category",
-          name:"商品分类",
-          component:()=>import('../pages/category/category.vue')
+          path: "category",
+          name: "商品分类",
+          component: () => import('../pages/category/category.vue')
         },
         {
-          path:"specifications",
-          name:"商品分类",
-          component:()=>import('../pages/specifications/specifications.vue')
+          path: "specifications",
+          name: "商品分类",
+          component: () => import('../pages/specifications/specifications.vue')
         },
         {
-          path:"commonditymange",
-          name:"商品分类",
-          component:()=>import('../pages/commonditymange/commonditymange.vue')
+          path: "commonditymange",
+          name: "商品分类",
+          component: () => import('../pages/commonditymange/commonditymange.vue')
         },
         {
-          path:"member",
-          name:"会员管理",
-          component:()=>import('../pages/member/member.vue')
+          path: "member",
+          name: "会员管理",
+          component: () => import('../pages/member/member.vue')
         },
         {
-          path:"banner",
-          name:"轮播图管理",
-          component:()=>import('../pages/banner/banner.vue')
+          path: "banner",
+          name: "轮播图管理",
+          component: () => import('../pages/banner/banner.vue')
         },
         {
-          path:"seckill",
-          name:"秒杀活动管理",
-          component:()=>import('../pages/seckill/seckill.vue')
+          path: "seckill",
+          name: "秒杀活动管理",
+          component: () => import('../pages/seckill/seckill.vue')
         }
       ]
     },
@@ -77,3 +79,18 @@ export default new Router({
     }
   ]
 })
+
+// 全局守卫
+router.beforeEach((to, from, next) => {
+  const user = JSON.parse(sessionStorage.getItem("user") || "{}");
+  if (to.path === "/") {
+    if (!user.token) {
+      warningAlert("登录已过期，请重新登录");
+      router.push("/login");
+      return;
+    }
+  }
+  next();
+})
+
+export default router;

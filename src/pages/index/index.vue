@@ -25,18 +25,25 @@
             <el-menu-item index="/role">角色管理</el-menu-item>
             <el-menu-item index="/manage">管理员管理</el-menu-item>
           </el-submenu> -->
-          <template v-for="(item) in user.menus">
+          <template v-for="item in user.menus">
             <el-submenu :index="item.title" :key="item.id" v-if="item.children">
               <template slot="title">
                 <i class="el-icon-s-tools"></i>
-                <span>{{item.title}}</span>
+                <span>{{ item.title }}</span>
               </template>
               <template v-for="i in item.children">
-                <el-menu-item :index="i.url" :key="i.id">{{i.title}}</el-menu-item>
+                <el-menu-item :index="i.url" :key="i.id">{{
+                  i.title
+                }}</el-menu-item>
               </template>
             </el-submenu>
             <!-- 这里显示没有目录的,即没有children -->
-          <el-menu-item v-if="!item.children" :key="item.id" :index="item.url">{{item.title}}</el-menu-item>
+            <el-menu-item
+              v-if="!item.children"
+              :key="item.id"
+              :index="item.url"
+              >{{ item.title }}</el-menu-item
+            >
           </template>
         </el-menu>
       </el-aside>
@@ -44,9 +51,11 @@
       <el-container>
         <!-- 头部 -->
         <el-header>
-          <span>管理员</span>
-          <i class="el-icon-setting"></i>
+          <div>
+            <span>管理员</span>
+            <i class="el-icon-setting"></i>
             <el-button type="primary" @click="goout">退出</el-button>
+          </div>
         </el-header>
         <!-- 身体 -->
         <el-main>
@@ -73,16 +82,16 @@ export default {
       user: "user" //左侧导航菜单信息
     })
   },
-  methods:{
-    goout(){
+  methods: {
+    goout() {
       this.$confirm("确定要退出吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-            sessionStorage.removeItem("user");
-            this.$router.push("/login");
+          sessionStorage.removeItem("user");
+          this.$router.push("/login");
         })
         .catch(() => {
           this.$message({
@@ -90,18 +99,17 @@ export default {
             message: "已取消"
           });
         });
-    
     }
   }
 };
 </script>
 <style scoped>
-.el-header,
-.el-footer {
+.el-header {
   background-color: #b3c0d1;
   color: #333;
   text-align: right;
   line-height: 60px;
+  height: 60px;
 }
 .el-aside {
   background-color: #20222a;
@@ -119,5 +127,9 @@ export default {
   height: 54px;
   line-height: 54px;
   margin-top: -25px;
+}
+.el-button {
+  width: 60px;
+  padding: 10px 0px;
 }
 </style>

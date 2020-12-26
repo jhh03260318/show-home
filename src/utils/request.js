@@ -2,11 +2,12 @@ import { successAlert, warningAlert } from "./alert";
 //该文件主要用于请求接口数据，并将请求到的数据暴露出去
 //引入axios
 import axios from 'axios';
-import { Form } from 'element-ui';
 //引入qs，qs用于登录时将请求的参数转换为字符串格式
 import qs from 'qs';
 
 import store from '../store/index';
+
+import router from '../router/route-index';
 
 const baseUrl = '/api';
 
@@ -25,6 +26,10 @@ axios.interceptors.response.use(res => {
     console.group('本次响应的接口路径' + res.config.url);
     console.log(res);
     console.groupEnd('响应拦截结束');
+    if (res.data.code === 403) {
+        warningAlert("res.data.msg");
+        router.push("/login");
+    }
     return res;
 });
 
