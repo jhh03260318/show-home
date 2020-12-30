@@ -16,6 +16,7 @@
               :key="item.id"
               :label="item.rolename"
               :value="item.id"
+              v-show="item.status===1"
             ></el-option>
           </el-select>
         </el-form-item>

@@ -26,13 +26,13 @@
             <el-menu-item index="/manage">管理员管理</el-menu-item>
           </el-submenu> -->
           <template v-for="item in user.menus">
-            <el-submenu :index="item.title" :key="item.id" v-if="item.children">
+            <el-submenu :index="item.title" :key="item.id" v-if="item.children&&item.status===1">
               <template slot="title">
                 <i class="el-icon-s-tools"></i>
                 <span>{{ item.title }}</span>
               </template>
               <template v-for="i in item.children">
-                <el-menu-item :index="i.url" :key="i.id">{{
+                <el-menu-item v-if="i.status===1" :index="i.url" :key="i.id">{{
                   i.title
                 }}</el-menu-item>
               </template>

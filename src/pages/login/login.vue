@@ -25,7 +25,7 @@
 import { UserLogin } from "../../utils/request";
 // 引入公共消息弹窗
 import { successAlert, warningAlert } from "../../utils/alert.js";
-import {mapActions} from 'vuex';
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -38,7 +38,7 @@ export default {
   // 登录
   methods: {
     ...mapActions({
-      User:"User"
+      User: "User"
     }),
     login() {
       //方式一
@@ -59,11 +59,16 @@ export default {
       //方式二
       UserLogin(this.user).then(res => {
         if (res.data.code === 200 && res.data.msg === "登录成功") {
-          successAlert(res.data.msg);
-          //将token值存入vux的store中
-          this.User(res.data.list);
-          this.$router.push("/");
-        }else{
+          if (res.data.list.status === 1) {
+            successAlert(res.data.msg);
+            //将token值存入vux的store中
+            this.User(res.data.list);
+            this.$router.push("/");
+          }else{
+            warningAlert("用户状态异常，请联系管理员");
+            return;
+          }
+        } else {
           warningAlert(res.data.msg);
         }
       });
